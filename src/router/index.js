@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
+import Grades from '../views/Grades.vue'
+import DashboardLayout from '../layout/DashboardLayout'
 import firebase from 'firebase/app'
 
 // const auth = firebase.auth
@@ -12,14 +14,25 @@ const routes = [
     path: '/',
     name: 'Home',
     redirect: '/home',
-    component: Home,
+    component: DashboardLayout,
     meta: { requiresAuth: true },
     children: [
       {
         path: 'home', /* changed */
-        name: 'home',
+        name: 'Home',
         component: Home
-      }]
+      },
+      {
+        path: 'grades', /* changed */
+        name: 'Grades',
+        component: Grades
+      },
+      {
+        path: 'subject', /* changed */
+        name: 'Subject',
+        component: Home
+      },
+    ]
   },
   {
     path: '/about',
