@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Login from '../views/Login.vue'
-import Grades from '../views/Grades.vue'
-import DashboardLayout from '../layout/DashboardLayout'
+import Home from '@/views/Home.vue'
+import Login from '@/views/Login.vue'
+import SchoolYear from '@/views/SchoolYear.vue'
+import Grades from '@/views/Grades/Grades.vue'
+import Subjects from '@/views/Subjects/Subjects.vue'
+import DashboardLayout from '@/layout/DashboardLayout'
+
 import firebase from 'firebase/app'
 
 // const auth = firebase.auth
@@ -12,7 +15,6 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
     redirect: '/home',
     component: DashboardLayout,
     meta: { requiresAuth: true },
@@ -23,14 +25,31 @@ const routes = [
         component: Home
       },
       {
-        path: 'grades', /* changed */
-        name: 'Grades',
-        component: Grades
+        path: 'results',
+        redirect: 'results/schoolyear', /* changed */
+        name: 'Results',
+        component: {
+          render(c) {
+            return c("router-view");
+          }
+        },
+        children: [
+          {
+            path: 'schoolyear',
+            name: 'Schoolyear',
+            component: SchoolYear
+          },
+          {
+            path: 'grades',
+            name: 'Grades',
+            component: Grades
+          }
+        ]
       },
       {
-        path: 'subject', /* changed */
-        name: 'Subject',
-        component: Home
+        path: 'subjects', /* changed */
+        name: 'Subjects',
+        component: Subjects
       },
     ]
   },
@@ -40,7 +59,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue')
   },
   {
     path: '/login',

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import GradesTables from '../components/Tables/GradesTables'
+import GradesTables from '@/components/Tables/GradesTables'
 export default {
     components:{
         GradesTables

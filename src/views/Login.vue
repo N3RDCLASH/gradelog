@@ -90,7 +90,7 @@ export default {
             let token = result.credential.accessToken;
             // The signed-in user info.
             let user = result.user;
-            //TODO remove this lign
+            //TODO remove this line
             console.log(user, token);
           })
           .then(() => this.$router.replace({ name: "Home" }))
