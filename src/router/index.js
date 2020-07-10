@@ -88,11 +88,11 @@ router.beforeEach((to, from, next) => {
   if (requiresAuth && !isAuthenticated) {
     next("/login")
   } else {
-    console.log(isAuthenticated)
+    console.log(isAuthenticated) 
     next()
   }
 
-  if (to.name == "Login" && isAuthenticated) {
+  if (to.name == "Login" && isAuthenticated || to.name == "Register" && isAuthenticated) {
     next("/home")
   } else {
     next()

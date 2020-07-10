@@ -4,6 +4,7 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import firebase from 'firebase/app'
+import { firestorePlugin } from 'vuefire'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -21,8 +22,7 @@ const firebaseConfig = {
   measurementId: "G-7EJF7TZ2NS"
 };
 // Initialize Firebase
-
-firebase.initializeApp(firebaseConfig);
+ firebase.initializeApp(firebaseConfig);
 
 firebase.auth().onAuthStateChanged(
   () => {
@@ -40,7 +40,7 @@ firebase.auth().onAuthStateChanged(
 
 Vue.config.productionTip = false, IconsPlugin
 
-Vue.use(BootstrapVue, IconsPlugin)
+Vue.use(BootstrapVue, IconsPlugin, firestorePlugin)
 
 
 

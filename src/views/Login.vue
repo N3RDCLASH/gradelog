@@ -40,8 +40,11 @@
           ></b-form-input>
         </b-form-group>
         <b-row align-v="center"></b-row>
-        <b-button class="login-input" id="submit" type="submit" variant="warning">Login</b-button>click here to
-        <a href="/register">register</a>
+        <b-button class="login-input" id="submit" type="submit" variant="warning">Login</b-button>
+        <p>
+          click here to
+          <a href="/register">register</a>
+        </p>
       </div>
     </b-form>
   </b-col>
