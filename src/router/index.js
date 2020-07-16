@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
-import Register from '@/views/Register.vue'
+import Register from '@/views/Register/Register.vue'
 import SchoolYear from '@/views/SchoolYear.vue'
 import Grades from '@/views/Grades/Grades.vue'
 import Subjects from '@/views/Subjects/Subjects.vue'
@@ -88,7 +88,7 @@ router.beforeEach((to, from, next) => {
   if (requiresAuth && !isAuthenticated) {
     next("/login")
   } else {
-    console.log(isAuthenticated) 
+    console.log(isAuthenticated)
     next()
   }
 

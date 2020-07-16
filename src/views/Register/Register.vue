@@ -1,8 +1,8 @@
 <template>
   <b-col md="4" sm="8" offset-md="4" offset-sm="2" align="left" class="login-form-container">
-    <img id="logo" width="350px" class="align-h-center" src="../assets/logo-dark.png" />
+    <img id="logo" width="350px" class="align-h-center" src="@/assets/logo-dark.png" />
     <h1>Register</h1>
-    <b-form @submit="onSubmit" v-if="show">
+    <b-form @submit="onSubmit" v-if="!isRegistered">
       <b-form-group id="input-group-1" label-for="input-1">
         <b-form-input
           id="input-1"
@@ -10,7 +10,7 @@
           type="email"
           required
           placeholder="Enter Email"
-          class="login-input"
+          class="form-input"
         ></b-form-input>
       </b-form-group>
 
@@ -22,7 +22,7 @@
           @input="validatePassword"
           required
           placeholder="Enter Password"
-          class="login-input"
+          class="form-input"
         ></b-form-input>
       </b-form-group>
       <b-form-group id="input-group-3">
@@ -33,16 +33,15 @@
           @input="validatePassword"
           required
           placeholder="Re-enter Password"
-          class="login-input"
+          class="form-input"
         ></b-form-input>
       </b-form-group>
 
-      <b-button id="submit" type="submit" variant="warning" class="login-input">Register</b-button>
+      <b-button id="submit" type="submit" variant="warning" class="form-input">Register</b-button>
       <p>
         Already haven account?
         <a href="/login">Login</a>
       </p>
-    </b-form>
     <ul class="validations" v-if="validations.length">
       <li>{{validations[0] ? '✔️' : '❌'}} must be at least 8 characters</li>
       <li>{{validations[1] ? '✔️' : '❌'}} must contain a capital letter</li>
@@ -50,18 +49,20 @@
       <li>{{validations[3] ? '✔️' : '❌'}} must contain one of $&+,:;=?@#</li>
       <li>{{validations[4] ? '✔️' : '❌'}} passwords match</li>
     </ul>
+    </b-form>
+    <UserInfoForm v-if="isRegistered" />
   </b-col>
 </template>
 
 <script>
 // @ is an alias to /src
-
+import UserInfoForm from "@/views/Register/UserInfoForm";
 import * as firebase from "firebase";
 import "firebase/auth";
 import "firebase/firestore";
 export default {
   name: "Register",
-  components: {},
+  components: { UserInfoForm },
   data() {
     return {
       form: {
@@ -71,12 +72,12 @@ export default {
       },
       validations: [],
       strength: 0,
-      show: true
+      isRegistered: false
     };
   },
   methods: {
-    onSubmit(evt) {
-      evt.preventDefault();
+    onSubmit(e) {
+      e.preventDefault();
       if (this.strength === this.validations.length) {
         try {
           const user = firebase
@@ -140,10 +141,10 @@ export default {
   padding: 10px 10px 60px 10px;
   border-radius: 5px;
 }
-.login-input-block {
+.form-input-block {
   margin-top: 20px;
 }
-.login-input {
+.form-input {
   height: 46px;
   padding: 13px 12px;
 }

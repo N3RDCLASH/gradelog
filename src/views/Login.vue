@@ -1,15 +1,15 @@
 <template>
   <b-col md="4" sm="8" offset-md="4" offset-sm="2" align="left" class="login-form-container">
-    <img id="logo" width="350px" class="align-h-center" src="../assets/logo-dark.png" />
+    <img id="logo" width="350px" class="align-h-center" src="@/assets/logo-dark.png" />
     <!-- <h4 class="text-left">Login with</h4> -->
     <b-form @submit="login" v-if="show">
-      <div class="login-input-block">
+      <div class="form-input-block">
         <b-col class="google-login text-center">
           <img
             class="align-h-center"
             @click="googleLogin"
             width="40px"
-            src="../assets/512px-Google__G__Logo.svg.webp"
+            src="@/assets/512px-Google__G__Logo.svg.webp"
             alt
           />
         </b-col>
@@ -25,7 +25,7 @@
             type="email"
             required
             placeholder="Email"
-            class="login-input"
+            class="form-input"
           ></b-form-input>
         </b-form-group>
 
@@ -36,11 +36,11 @@
             v-model="form.password"
             required
             placeholder="Password"
-            class="login-input"
+            class="form-input"
           ></b-form-input>
         </b-form-group>
         <b-row align-v="center"></b-row>
-        <b-button class="login-input" id="submit" type="submit" variant="warning">Login</b-button>
+        <b-button class="form-input" id="submit" type="submit" variant="warning">Login</b-button>
         <p>
           click here to
           <a href="/register">register</a>
@@ -155,10 +155,10 @@ export default {
   padding: 10px 10px 60px 10px;
   border-radius: 5px;
 }
-.login-input-block {
+.form-input-block {
   margin-top: 20px;
 }
-.login-input {
+.form-input {
   height: 46px;
   padding: 13px 12px;
 }
