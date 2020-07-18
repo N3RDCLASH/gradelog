@@ -61,12 +61,17 @@
           class="form-input"
         ></b-form-input>
       </b-form-group>
-      <b-button id="submit" type="submit" variant="warning" class="form-input">Register</b-button>
+      <b-button id="submit" type="submit" variant="warning" class="form-input">Submit</b-button>
     </b-form>
   </div>
 </template>
 
 <script>
+import * as firebase from "firebase";
+import store from "@/store/";
+import "firebase/firestore";
+import "firebase/auth";
+
 export default {
   name: "UserInfoForm",
   data() {
@@ -83,8 +88,18 @@ export default {
   },
   methods: {
     onSubmit(e) {
-      e.preventDefault()
-      alert(JSON.stringify(this.form))
+      const db = firebase.firestore();
+      const auth = firebase.auth();
+      e.preventDefault();
+      let user = auth.currentUser;
+      db.collection("users")
+        .doc(user.uid)
+        .update({ ...this.form, registerCompleted: true })
+        .then(() => {
+          store.commit("SET_REGISTER_STATUS", true);
+          this.$router.push({ name: "Home" });
+        })
+        .catch(error => console.log(error));
     }
   }
 };

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
+import Profile from '@/views/Profile.vue'
 import Register from '@/views/Register/Register.vue'
 import SchoolYear from '@/views/SchoolYear.vue'
 import Grades from '@/views/Grades/Grades.vue'
@@ -52,6 +53,11 @@ const routes = [
         name: 'Subjects',
         component: Subjects
       },
+      {
+        path: 'profile', /* changed */
+        name: 'Profile',
+        component: Profile
+      },
     ]
   },
   {
@@ -88,7 +94,6 @@ router.beforeEach((to, from, next) => {
   if (requiresAuth && !isAuthenticated) {
     next("/login")
   } else {
-    console.log(isAuthenticated)
     next()
   }
 

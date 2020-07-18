@@ -22,10 +22,12 @@ const firebaseConfig = {
   measurementId: "G-7EJF7TZ2NS"
 };
 // Initialize Firebase
- firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
 firebase.auth().onAuthStateChanged(
-  () => {
+  user => {
+    store.dispatch("fetchUser", user);
+  
     let app
     if (!app) {
       new Vue({
@@ -33,7 +35,6 @@ firebase.auth().onAuthStateChanged(
         store,
         render: h => h(App)
       }).$mount('#app')
-
     }
   }
 )

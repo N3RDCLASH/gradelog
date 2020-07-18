@@ -2,7 +2,7 @@
   <b-col md="4" sm="8" offset-md="4" offset-sm="2" align="left" class="login-form-container">
     <img id="logo" width="350px" class="align-h-center" src="@/assets/logo-dark.png" />
     <h1>Register</h1>
-    <b-form @submit="onSubmit" v-if="!isRegistered">
+    <b-form @submit="onSubmit" v-if="!isSignedUp">
       <b-form-group id="input-group-1" label-for="input-1">
         <b-form-input
           id="input-1"
@@ -39,18 +39,18 @@
 
       <b-button id="submit" type="submit" variant="warning" class="form-input">Register</b-button>
       <p>
-        Already haven account?
+        Already have an account?
         <a href="/login">Login</a>
       </p>
-    <ul class="validations" v-if="validations.length">
-      <li>{{validations[0] ? '✔️' : '❌'}} must be at least 8 characters</li>
-      <li>{{validations[1] ? '✔️' : '❌'}} must contain a capital letter</li>
-      <li>{{validations[2] ? '✔️' : '❌'}} must contain a number</li>
-      <li>{{validations[3] ? '✔️' : '❌'}} must contain one of $&+,:;=?@#</li>
-      <li>{{validations[4] ? '✔️' : '❌'}} passwords match</li>
-    </ul>
+      <ul class="validations" v-if="validations.length">
+        <li>{{validations[0] ? '✔️' : '❌'}} must be at least 8 characters</li>
+        <li>{{validations[1] ? '✔️' : '❌'}} must contain a capital letter</li>
+        <li>{{validations[2] ? '✔️' : '❌'}} must contain a number</li>
+        <li>{{validations[3] ? '✔️' : '❌'}} must contain one of $&+,:;=?@#</li>
+        <li>{{validations[4] ? '✔️' : '❌'}} passwords match</li>
+      </ul>
     </b-form>
-    <UserInfoForm v-if="isRegistered" />
+    <UserInfoForm v-if="isSignedUp" />
   </b-col>
 </template>
 
@@ -58,6 +58,7 @@
 // @ is an alias to /src
 import UserInfoForm from "@/views/Register/UserInfoForm";
 import * as firebase from "firebase";
+import store from "@/store";
 import "firebase/auth";
 import "firebase/firestore";
 export default {
@@ -72,7 +73,8 @@ export default {
       },
       validations: [],
       strength: 0,
-      isRegistered: false
+      isSignedUp: this.$store.state.user.isSignedUp,
+      registerCompleted: false
     };
   },
   methods: {
@@ -86,29 +88,14 @@ export default {
               this.form.email,
               this.form.password1
             )
+            .then(() => this.createUserDocument())
             .then(() => {
-              let db = firebase.firestore();
-              const {
-                uid,
-                email,
-                displayName,
-                photoURL
-              } = firebase.auth().currentUser;
-              const user = { uid, email, displayName, photoURL };
-              console.log(db, user);
-              db.collection("users")
-                .doc(user.uid)
-                .set(user)
-                .then(() => {
-                  console.log("user updated!");
-                });
-              // we can also use `$firestoreRefs.user` to refer to the bound user reference
-              // this.$firestoreRefs.user.set(user);
-            })
-            .then(() => this.$router.replace({ name: "Home" }));
+              store.commit("SET_SIGN_UP_STATUS", true);
+            });
+          // this.$nextTick();
           console.log(user);
         } catch (error) {
-          console.log(error);
+          alert(error.message);
         }
       } else {
         alert("test");
@@ -126,6 +113,16 @@ export default {
       ];
       this.strength = this.validations.reduce((acc, cur) => acc + cur, 0);
       console.log(this.strength, this.validations);
+    },
+    createUserDocument() {
+      let db = firebase.firestore();
+      const { uid, email, displayName, photoURL } = firebase.auth().currentUser;
+      const user = { uid, email, displayName, photoURL };
+      console.log(db, user);
+      db.collection("users")
+        .doc(user.uid)
+        .set(user)
+        .catch(error => alert(error.message));
     }
   }
 };
