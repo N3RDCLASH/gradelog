@@ -4,7 +4,6 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import firebase from 'firebase/app'
-import { firestorePlugin } from 'vuefire'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -27,7 +26,7 @@ firebase.initializeApp(firebaseConfig);
 firebase.auth().onAuthStateChanged(
   user => {
     store.dispatch("fetchUser", user);
-  
+
     let app
     if (!app) {
       new Vue({
@@ -41,7 +40,5 @@ firebase.auth().onAuthStateChanged(
 
 Vue.config.productionTip = false, IconsPlugin
 
-Vue.use(BootstrapVue, IconsPlugin, firestorePlugin)
-
-
-
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)

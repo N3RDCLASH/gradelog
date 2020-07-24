@@ -32,7 +32,8 @@ export default new Vuex.Store({
         commit("SET_USER", {
           displayName: user.displayName,
           email: user.email,
-          uid: user.uid
+          uid: user.uid,
+          photo: user.photoURL
         });
       } else {
         commit("SET_USER", null);
@@ -44,7 +45,7 @@ export default new Vuex.Store({
     user(state) {
       return state.user
     },
-    
+
   },
   modules: {
   }

@@ -3,6 +3,7 @@
     <b-card no-body>
       <b-tabs card>
         <b-tab title="Tab 1" active>
+          {{year}}
           <grades-tables />
         </b-tab>
         <b-tab title="Tab 2">
@@ -14,11 +15,12 @@
 </template>
 
 <script>
-import GradesTables from '@/components/Tables/GradesTables'
+import GradesTables from "@/components/Tables/GradesTables";
 export default {
-    components:{
-        GradesTables
-    }
+  components: {
+    GradesTables
+  },
+  props: ["year"]
 };
 </script>
 

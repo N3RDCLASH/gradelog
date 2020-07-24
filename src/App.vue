@@ -25,4 +25,7 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+.bg-gradient {
+  background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
 </style>

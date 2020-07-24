@@ -44,7 +44,8 @@ const routes = [
           {
             path: 'grades',
             name: 'Grades',
-            component: Grades
+            component: Grades,
+            props: true
           }
         ]
       },
