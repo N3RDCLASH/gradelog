@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-md-8">
-      <edit-profile-form :user="user"></edit-profile-form>
+      <edit-profile-form :model="user"></edit-profile-form>
     </div>
     <div class="col-md-4">
       <user-card :user="user"></user-card>
@@ -18,15 +18,15 @@ import UserCard from "./Profile/UserCard";
 export default {
   components: {
     EditProfileForm,
-    UserCard
+    UserCard,
   },
   name: "Profile",
   data() {
     return {
-      user: {}
+      user: {},
     };
   },
-  methods() {},
+  methods: {},
   created() {
     let { uid } = store.state.user.data;
     firebase
@@ -34,7 +34,7 @@ export default {
       .collection("users")
       .doc(uid)
       .get()
-      .then(doc => {
+      .then((doc) => {
         if (doc.exists) {
           this.user = doc.data();
           // console.log(tdoc.data());
@@ -42,8 +42,8 @@ export default {
           console.log("not", uid);
         }
       })
-      .catch(err => console.log(err));
-  }
+      .catch((err) => console.log(err));
+  },
 };
 </script>
 
