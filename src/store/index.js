@@ -23,6 +23,8 @@ export default new Vuex.Store({
     },
     SET_USER(state, data) {
       state.user.data = data
+    }, UPDATE_PHOTOURL(state, data) {
+      state.user.data.photoURL = data
     }
   },
   actions: {
@@ -33,11 +35,14 @@ export default new Vuex.Store({
           displayName: user.displayName,
           email: user.email,
           uid: user.uid,
-          photo: user.photoURL
+          photoURL: user.photoURL
         });
       } else {
         commit("SET_USER", null);
       }
+    },
+    updatePhotoURL({ commit }, data) {
+      commit("UPDATE_PHOTOURL", data)
     }
 
   },

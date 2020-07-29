@@ -17,11 +17,7 @@
         />
         <b-dropdown size="lg" variant="link" toggle-class="text-decoration-none" no-caret>
           <template v-slot:button-content>
-            <b-avatar
-              src="https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70"
-              alt="User Photo"
-              size="5em"
-            />
+            <b-avatar :src="user.photoURL" alt="User Photo" size="5em" />
           </template>
           <b-dropdown-item @click="$refs.imageInput.click()">Add/change profile picture</b-dropdown-item>
           <b-dropdown-item href="#">Remove profile picture</b-dropdown-item>
@@ -58,6 +54,7 @@
 </template>
 <script>
 import Jimp from "jimp/es";
+import store from "@/store";
 import * as firebase from "firebase";
 import "firebase/storage";
 import "firebase/firestore";
@@ -114,6 +111,7 @@ export default {
     },
     changeProfileImage: function (e) {
       e.preventDefault();
+      console.log("function:", this);
       const storageRef = firebase
         .storage()
         .ref(`${this.user.uid}/ profilePicture.jpg`);
@@ -130,25 +128,28 @@ export default {
         (err) => {
           console.log(err);
         },
-        function () {
-          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-            console.log("File available at", downloadURL);
-            this.user.photoURL = downloadURL;
-          });
+        () => {
+          uploadTask.snapshot.ref
+            .getDownloadURL()
+            .then(function (downloadURL) {
+              console.log("File available at", downloadURL);
+              store.dispatch("updatePhotoURL", downloadURL);
+            })
+            .then(this.updatePhotoURL())
+            .then(this.$bvModal.hide("modal-1"));
         }
       );
-      this.closeModal();
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(this.user.uid)
-        .update({ photoURL: this.user.photoURL })
-        .catch((err) => console.log("error:" + err));
     },
 
     removeProfileImage: () => {},
-    closeModa() {
-      this.$$bvModal.hide();
+    updatePhotoURL() {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(this.user.uid)
+        .update({ photoURL: store.state.user.data.photoURL })
+        .catch((err) => console.log("error:" + err));
+      console.log("updated photo");
     },
   },
 };
