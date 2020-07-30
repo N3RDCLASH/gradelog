@@ -9,10 +9,10 @@
   </div>
 </template>
 
-<script>
-import * as firebase from "firebase";
+// <script>
+// import * as firebase from "firebase";
+// import "firebase/firestore";
 import store from "@/store/";
-import "firebase/firestore";
 import EditProfileForm from "./Profile/EditProfileForm";
 import UserCard from "./Profile/UserCard";
 export default {
@@ -28,21 +28,10 @@ export default {
   },
   methods: {},
   created() {
-    let { uid } = store.state.user.data;
-    firebase
-      .firestore()
-      .collection("users")
-      .doc(uid)
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          this.user = doc.data();
-          // console.log(tdoc.data());
-        } else {
-          console.log("not", uid);
-        }
-      })
-      .catch((err) => console.log(err));
+    store.watch(() => {
+      this.user = this.$store.state.user.data; // could also put a Getter here
+    });
+    // TODO move this to the store and wait for snapshots instead of reading everytime
   },
 };
 </script>

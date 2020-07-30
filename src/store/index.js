@@ -25,6 +25,9 @@ export default new Vuex.Store({
       state.user.data = data
     }, UPDATE_PHOTOURL(state, data) {
       state.user.data.photoURL = data
+    },
+    UPDATE_USER_DATA(state, data) {
+      state.user.data = { ...data }
     }
   },
   actions: {
@@ -40,6 +43,9 @@ export default new Vuex.Store({
       } else {
         commit("SET_USER", null);
       }
+    },
+    updateUserData({ commit }, data) {
+      commit("UPDATE_USER_DATA", data)
     },
     updatePhotoURL({ commit }, data) {
       commit("UPDATE_PHOTOURL", data)

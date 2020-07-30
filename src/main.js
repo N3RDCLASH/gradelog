@@ -9,6 +9,11 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 
+Vue.config.productionTip = false, IconsPlugin
+
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCNhOD-40tl6jh2FSwtgWJ16ao0AKEu_ZU",
@@ -26,8 +31,25 @@ firebase.initializeApp(firebaseConfig);
 firebase.auth().onAuthStateChanged(
   user => {
     store.dispatch("fetchUser", user);
-
     let app
+    if (user) {
+      let { uid } = firebase.auth().currentUser
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(uid)
+        .onSnapshot(
+          (doc) => {
+            if (doc.exists) {
+              store.dispatch("updateUserData", doc.data())
+            } else {
+              console.log("not", uid);
+            }
+          },
+          (err) => console.log(err)
+        )
+    }
+
     if (!app) {
       new Vue({
         router,
@@ -38,7 +60,5 @@ firebase.auth().onAuthStateChanged(
   }
 )
 
-Vue.config.productionTip = false, IconsPlugin
 
-Vue.use(BootstrapVue)
-Vue.use(IconsPlugin)
+
