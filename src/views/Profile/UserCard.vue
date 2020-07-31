@@ -54,7 +54,7 @@
 </template>
 <script>
 import Jimp from "jimp/es";
-import store from "@/store";
+// import store from "@/store";
 import * as firebase from "firebase";
 import "firebase/storage";
 import "firebase/firestore";
@@ -72,22 +72,14 @@ export default {
       selectedFile: null,
       convertedBase64: null,
       uploadProgress: 0,
+      allowedExtensions: ["jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png"],
     };
   },
   methods: {
     onFileSelected: function (e) {
-      let allowedExtensions = [
-        "jpg",
-        "jpeg",
-        "jpe",
-        "jif",
-        "jfif",
-        "jfi",
-        "png",
-      ];
       let extension = e.target.files[0].name.split(".").pop();
 
-      if (allowedExtensions.includes(extension.toLowerCase())) {
+      if (this.allowedExtensions.includes(extension.toLowerCase())) {
         this.selectedFile = e.target.files[0];
         this.convertImageToJpeg();
         this.$bvModal.show("modal-1");
@@ -111,7 +103,6 @@ export default {
     },
     changeProfileImage: function (e) {
       e.preventDefault();
-      console.log("function:", this);
       const storageRef = firebase
         .storage()
         .ref(`${this.user.uid}/ profilePicture.jpg`);
@@ -121,35 +112,28 @@ export default {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          let progress =
+          this.uploadProgress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          this.uploadProgress = progress;
         },
         (err) => {
           console.log(err);
         },
-        () => {
-          uploadTask.snapshot.ref
-            .getDownloadURL()
-            .then(function (downloadURL) {
-              console.log("File available at", downloadURL);
-              store.dispatch("updatePhotoURL", downloadURL);
-            })
-            .then(this.updatePhotoURL())
-            .then(this.$bvModal.hide("modal-1"));
+        async () => {
+          let url = await uploadTask.snapshot.ref.getDownloadURL();
+          this.updatePhotoURL(url);
+          this.$bvModal.hide("modal-1");
         }
       );
     },
 
     removeProfileImage: () => {},
-    updatePhotoURL() {
+    updatePhotoURL(url) {
       firebase
         .firestore()
         .collection("users")
         .doc(this.user.uid)
-        .update({ photoURL: store.state.user.data.photoURL })
+        .update({ photoURL: url })
         .catch((err) => console.log("error:" + err));
-      console.log("updated photo");
     },
   },
 };
