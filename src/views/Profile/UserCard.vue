@@ -54,7 +54,6 @@
 </template>
 <script>
 import Jimp from "jimp/es";
-// import store from "@/store";
 import * as firebase from "firebase";
 import "firebase/storage";
 import "firebase/firestore";

@@ -10,6 +10,7 @@
   "dependencies": {
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.15.0",
+    "chartist": "^0.11.4",
     "core-js": "^3.6.5",
     "firebase": "^7.15.5",
     "jimp": "^0.14.0",

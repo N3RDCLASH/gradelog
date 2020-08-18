@@ -28,7 +28,7 @@ const routes = [
       },
       {
         path: 'results',
-        redirect: 'results/schoolyear', /* changed */
+        redirect: 'results/grades', /* changed */
         name: 'Results',
         component: {
           render(c) {

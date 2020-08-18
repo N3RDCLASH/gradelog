@@ -1,13 +1,13 @@
 <template>
   <div>
-    
+    <!-- <Card /> -->
   </div>
 </template>
 
 <script>
+// import ChartCard from "@/components/Cards/Card.vue";
 export default {
-  components:{
-  }
+  components: {  },
 };
 </script>
 
