@@ -1,10 +1,17 @@
 <template>
   <div class="text-black">
     <b-card no-body>
-      <b-col md="2" >
-        <b-form>
-          <b-select :options="schoolyears" v-model="selectedSchoolyear" @change="selectOption"></b-select>
-        </b-form>
+      <b-col md="2">
+        <b-select
+          :options="schoolyears"
+          v-model="selectedSchoolyear"
+          @change="selectOption"
+          class="mt-3 mb-3"
+        ></b-select>
+        <b-button>
+          Grade
+          <b-icon icon="plus-circle-fill" variant="light" class="ml-2 mt-1"></b-icon>
+        </b-button>
       </b-col>
       <b-tabs card>
         <b-tab title="Periode 1" active>
@@ -113,6 +120,6 @@ export default {
 
 <style  scoped>
 * {
-  color: black;
+  /* color: black; */
 }
 </style>
