@@ -1,11 +1,11 @@
 <template>
   <div class="text-black">
     <b-card no-body>
-      <div>
+      <b-col md="2" >
         <b-form>
-          <b-select :options="schoolyears"></b-select>
+          <b-select :options="schoolyears" v-model="selectedSchoolyear" @change="selectOption"></b-select>
         </b-form>
-      </div>
+      </b-col>
       <b-tabs card>
         <b-tab title="Periode 1" active>
           <grades-tables :items="grades.period[1]" />
@@ -31,7 +31,9 @@ export default {
   props: ["year"],
   data() {
     return {
+      errors: [],
       schoolyears: [],
+      selectedSchoolyear: "",
       grades: {
         period: {
           1: [],
@@ -43,11 +45,19 @@ export default {
     };
   },
   methods: {
-    getGrades() {
+    getGradesBySchoolyear(schoolyear) {
+      // Remove whitespace from string
+      schoolyear = schoolyear.split("-")[0].replace(/\s+/g, "");
+
+      // Remove whitespace from string
+      this.clearGrades();
+
       firebase
         .firestore()
         .collection("results")
         .where("uid", "==", store.state.user.data.uid)
+        .where("result_date", ">=", new Date(`10-01-${schoolyear}`))
+        // .where("result_date", "<=", new Date(`08-30-${schoolyear + 1}`))
         .get()
         .then((results) => {
           if (results.empty != true) {
@@ -59,28 +69,44 @@ export default {
                 result_period,
                 result_date,
               } = doc;
+
               this.grades.period[result_period].push({
                 subject_name,
                 result_grade,
                 result_date: result_date.toDate().toDateString(),
               });
             });
+          } else {
+            let error = "No records found";
+            this.errors.push(error);
           }
         });
     },
+
     generateSelectOptions() {
       let end = new Date().getFullYear();
       for (let start = 2010; start <= end; start++) {
         this.schoolyears.push({
-          value: `${start}-${start + 1}`,
-          text: `${start}-${start + 1}`,
+          value: `${start} - ${start + 1}`,
+          text: `${start} - ${start + 1}`,
         });
       }
     },
+    selectOption() {
+      console.log("test");
+      this.getGradesBySchoolyear(this.selectedSchoolyear);
+    },
+    clearGrades() {
+      // Remove previous grades from array
+      this.grades.period[1] = [];
+      this.grades.period[2] = [];
+      this.grades.period[3] = [];
+      this.grades.period[4] = [];
+    },
   },
   created() {
-    this.getGrades();
     this.generateSelectOptions();
+    // this.getGradesBySchoolyear();
   },
 };
 </script>
