@@ -39,8 +39,15 @@ export default {
   data() {
     return {
       errors: [],
-      schoolyears: [],
-      selectedSchoolyear: "",
+      schoolyears: [
+        {
+          value: null,
+          text: "Schoolyear",
+          disabled: true,
+          selected: true,
+        },
+      ],
+      selectedSchoolyear: null,
       grades: {
         period: {
           1: [],
@@ -64,6 +71,7 @@ export default {
         .collection("results")
         .where("uid", "==", store.state.user.data.uid)
         .where("result_date", ">=", new Date(`10-01-${schoolyear}`))
+        // TODO: this doesn't completly work yet;
         // .where("result_date", "<=", new Date(`08-30-${schoolyear + 1}`))
         .get()
         .then((results) => {
@@ -91,6 +99,9 @@ export default {
     },
 
     generateSelectOptions() {
+      // push the placeholder to the array
+      this.schoolyears.push();
+
       let end = new Date().getFullYear();
       for (let start = 2010; start <= end; start++) {
         this.schoolyears.push({
