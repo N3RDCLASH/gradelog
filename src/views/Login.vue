@@ -64,9 +64,9 @@ export default {
     return {
       form: {
         email: "",
-        password: ""
+        password: "",
       },
-      show: true
+      show: true,
     };
   },
   methods: {
@@ -87,7 +87,7 @@ export default {
         let login = await firebase
           .auth()
           .signInWithPopup(provider)
-          .then(result => {
+          .then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
             let token = result.credential.accessToken;
             // The signed-in user info.
@@ -96,7 +96,7 @@ export default {
             console.log(user, token);
           })
           .then(() => this.$router.replace({ name: "Home" }))
-          .catch(function(error) {
+          .catch(function (error) {
             // Handle Errors here.
             let errorCode = error.code;
             let errorMessage = error.message;
@@ -111,8 +111,8 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

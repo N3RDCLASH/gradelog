@@ -92,7 +92,6 @@ export default {
             .then(() => {
               store.commit("SET_SIGN_UP_STATUS", true);
             });
-          // this.$nextTick();
           console.log(user);
         } catch (error) {
           alert(error.message);

@@ -31,7 +31,6 @@ export default {
     store.watch(() => {
       this.user = this.$store.state.user.data; // could also put a Getter here
     });
-    // TODO move this to the store and wait for snapshots instead of reading everytime
   },
 };
 </script>
