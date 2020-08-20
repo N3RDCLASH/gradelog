@@ -34,7 +34,7 @@
     </b-card>
 
     <div>
-      <b-modal id="modal-1" title="BootstrapVue" hide-footer>
+      <b-modal id="modal-1" title="Add Grade Result" hide-footer>
         <form action @submit="createGradeResult">
           <b-col md="10" offset-md="1" h-align="center">
             <b-form-group label="Subject Name">
