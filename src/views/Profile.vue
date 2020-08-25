@@ -10,9 +10,7 @@
 </template>
 
 // <script>
-// import * as firebase from "firebase";
-// import "firebase/firestore";
-import store from "@/store/";
+
 import EditProfileForm from "./Profile/EditProfileForm";
 import UserCard from "./Profile/UserCard";
 export default {
@@ -28,7 +26,7 @@ export default {
   },
   methods: {},
   created() {
-    store.watch(() => {
+    this.$store.watch(() => {
       this.user = this.$store.state.user.data; // could also put a Getter here
     });
   },
