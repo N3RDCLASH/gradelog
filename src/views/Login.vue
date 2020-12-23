@@ -1,6 +1,18 @@
 <template>
-  <b-col md="4" sm="8" offset-md="4" offset-sm="2" align="left" class="login-form-container">
-    <img id="logo" width="350px" class="align-h-center" src="@/assets/logo-dark.png" />
+  <b-col
+    md="4"
+    sm="8"
+    offset-md="4"
+    offset-sm="2"
+    align="left"
+    class="login-form-container"
+  >
+    <img
+      id="logo"
+      width="350px"
+      class="align-h-center"
+      src="@/assets/logo-dark.png"
+    />
     <!-- <h4 class="text-left">Login with</h4> -->
     <b-form @submit="login" v-if="show">
       <div class="form-input-block">
@@ -40,7 +52,13 @@
           ></b-form-input>
         </b-form-group>
         <b-row align-v="center"></b-row>
-        <b-button class="form-input" id="submit" type="submit" variant="warning">Login</b-button>
+        <b-button
+          class="form-input"
+          id="submit"
+          @click="login()"
+          variant="warning"
+          >Login</b-button
+        >
         <p>
           click here to
           <a href="/register">register</a>

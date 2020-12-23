@@ -1,12 +1,12 @@
 <template>
   <div>
-    <b-table striped hover :items="items"></b-table>
+    <b-table striped hover :fields="fields" :items="items"></b-table>
   </div>
 </template>
 
 <script>
 export default {
-  props: { items: Array },
+  props: { items: Array, fields: Array },
   data() {
     return {
       // Test data

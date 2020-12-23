@@ -1,0 +1,14 @@
+let object = {
+    result_date:
+       null
+    result_grade:
+        0,
+    result_id:
+        "oPqso0UnfTQOTVHPHUFD",
+    result_period:
+        2,
+    subject_name:
+        "",
+    uid:
+        "9k6ICf1wYdQv5oUHelwB0CGceEG3"
+} 

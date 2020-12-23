@@ -15,19 +15,19 @@
       </b-col>
       <b-tabs card>
         <b-tab title="Periode 1" active>
-          <grades-tables :items="grades.period[1]" />
+          <grades-tables :fields="fields" :items="grades.period[1]" />
           <p v-if="grades.period[1].length === 0">No records found.</p>
         </b-tab>
         <b-tab title="Periode 2">
-          <grades-tables :items="grades.period[2]" />
+          <grades-tables :fields="fields" :items="grades.period[2]" />
           <p v-if="grades.period[2].length === 0">No records found.</p>
         </b-tab>
         <b-tab title="Periode 3" active>
-          <grades-tables :items="grades.period[3]" />
+          <grades-tables :fields="fields" :items="grades.period[3]" />
           <p v-if="grades.period[3].length === 0">No records found.</p>
         </b-tab>
         <b-tab title="Periode 4">
-          <grades-tables :items="grades.period[4]" />
+          <grades-tables :fields="fields" :items="grades.period[4]" />
           <p v-if="grades.period[4].length === 0">No records found.</p>
         </b-tab>
       </b-tabs>
@@ -102,6 +102,20 @@ export default {
         result_period: null,
         subject_name: "",
       },
+      fields: [
+        {
+          key: "subject_name",
+          sortable: true,
+        },
+        {
+          key: "result_grade",
+          sortable: true,
+        },
+        {
+          key: "result_date",
+          sortable: true,
+        },
+      ],
       grades: {
         period: {
           1: [],
@@ -133,15 +147,15 @@ export default {
             let grades = results.docs.map((doc) => doc.data());
             grades.forEach((doc) => {
               let {
-                subject_name,
-                result_grade,
+            //     subject_name,
+            //     result_grade,
                 result_period,
                 result_date,
               } = doc;
 
-              this.grades.period[result_period].push({
-                subject_name,
-                result_grade,
+              this.grades.period[result_period].push({...doc,
+            //     subject_name,
+            //     result_grade,
                 result_date: result_date.toDate().toDateString(),
               });
             });
